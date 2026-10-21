@@ -1,122 +1,61 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import "./style.css";
+import BoardHeader from "./components/BoardHeader.jsx";
+import PostList from "./components/PostList.jsx";
+import BoardFooter from "./components/BoardFooter.jsx";
+import { useState } from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [posts, setPosts] = useState([
+    {
+      id: 1,
+      title: "test_title01",
+      authorNickname: "test_nickname01",
+      createdDatetime: "2026-10-04",
+      content: "test_content01"
+    },
+    {
+      id: 2,
+      title: "test_title02",
+      authorNickname: "test_nickname02",
+      createdDatetime: "2026-10-04",
+      content: "test_content02"
+    },
+  ]);
+
+  function addPracticePost() {
+    const id = Date.now();
+    setPosts((currentPosts) => [
+      {
+        id,
+        title: `임시 계시글 ${currentPosts.length}`,
+        authorNickname: "test_nickname03",
+        createdDatetime: "2026-10-04",
+        content: "test_content03"
+      },
+      ...currentPosts
+    ]);
+  }
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      <BoardHeader />
+      <main>
+        <h1>게시판</h1>
 
-      <div className="ticks"></div>
+        <p id="list-message" role="status">게시물 목록</p>
+        <button id="retry-list" type="button">목록 다시 시도</button>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        <PostList posts={posts} onSelect={(post) => window.alert(post.title)}/>
+        <button type="button" onClick={addPracticePost}>임시 게시글</button>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+        <div className="pagination" aria-label="페이지 이동">
+          <button id="previous-page" type="button" disabled>이전</button>
+          <span id="page-number">1페이지</span>
+          <button id="next-page" type="button" disabled>다음</button>
+        </div>
+      </main>
+
+      <BoardFooter />
     </>
-  )
+  );
 }
-
-export default App
