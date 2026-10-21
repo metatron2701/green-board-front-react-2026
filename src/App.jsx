@@ -45,7 +45,7 @@ export default function App() {
         <p id="list-message" role="status">게시물 목록</p>
         <button id="retry-list" type="button">목록 다시 시도</button>
 
-        <PostList posts={posts} onSelect={(post) => window.alert(post.title)}/>
+        <PostList posts={posts} onSelect={(post) => window.alert(post.id)}/>
         <button type="button" onClick={addPracticePost}>임시 게시글</button>
 
         <div className="pagination" aria-label="페이지 이동">
