@@ -1,8 +1,18 @@
-export default function PostForm({onSave, onCancel}) {
+import { useState } from "react";
+import { Link } from "react-router-dom";
+
+export default function PostForm({onSave}){
+    return <main>
+        <h1>글쓰기</h1>
+        <PostFormField onSave={onSave} />
+    </main>
+}
+
+function PostFormField({onSave}) {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [message, setMessage] = useState("");
-    
+
     function handleSubmit(event) {
         event.preventDefault();
         const trimmedTitle = title.trim();
@@ -19,13 +29,14 @@ export default function PostForm({onSave, onCancel}) {
     }
 
     return (
-        <form id="post-form" onSelect={handleSubmit}>
+        <form id="post-form" onSubmit={handleSubmit}>
             <label htmlFor="title">제목</label>
-            <textarea id="title" name="title" required minLength="10" maxLength="50" value={title} onChange={(event) => setTitle(event.target.value)} />
+            <input id="title" name="title" required minLength="10" maxLength="50" value={title} onChange={(event) => setTitle(event.target.value)} placeholder="제목을 입력하세요." />
             <label htmlFor="content">내용</label>
-            <textarea id="content" name="content" required minLength="10" rows="10" value={content} onChange={(event) => setContent(event.target.value)} />
+            <textarea id="content" name="content" required minLength="10" rows="10" value={content} onChange={(event) => setContent(event.target.value)} placeholder="내용을 입력하세요." />
             <p id="form-message" role="status">{message}</p>
-            <a href="/" onClick={(event) => {event.preventDefault(); onCancel();}}>목록으로</a>
+            <button type="submit">게시글 등록</button>
+            <Link to="/posts">목록으로</Link>
         </form>
     );
 }
