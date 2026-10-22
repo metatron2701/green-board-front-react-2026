@@ -2,10 +2,12 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function PostForm({onSave}){
-    return <main>
-        <h1>글쓰기</h1>
-        <PostFormField onSave={onSave} />
-    </main>
+    return (
+        <main>
+            <h1>글쓰기</h1>
+            <PostFormField onSave={onSave} />
+        </main>
+    );
 }
 
 function PostFormField({onSave}) {

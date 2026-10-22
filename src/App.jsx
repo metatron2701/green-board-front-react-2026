@@ -26,7 +26,7 @@ export default function App() {
     },
   ]);
 
-  function addPracticePost(){
+  function addPracticePost() {
     const id = Date.now();
     setPosts((currentPosts) => [
       {
@@ -49,13 +49,13 @@ export default function App() {
   return (
     <>
       <BoardHeader />
-      <Routes>
-        <Route path="/" element={<PostList posts={posts} onAddPracticePost={addPracticePost} />} />
-        <Route path="/posts" element={<PostList posts={posts} onAddPracticePost={addPracticePost} />} />
-        <Route path="/posts/new" element={<PostForm onSave={savePost} />} />
-        <Route path="/posts/:postId" element={<PostDetail />} />
-        <Route path="/login" element={<Login />} />
-      </Routes>
+        <Routes>
+          <Route path="/" element={<PostList posts={posts} onAddPracticePost={addPracticePost} />} />
+          <Route path="/posts" element={<PostList posts={posts} onAddPracticePost={addPracticePost} />} />
+          <Route path="/posts/new" element={<PostForm onSave={savePost} />} />
+          <Route path="/posts/:postId" element={<PostDetail />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
       <BoardFooter />
     </>
   )
