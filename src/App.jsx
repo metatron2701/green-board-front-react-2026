@@ -3,6 +3,7 @@ import BoardHeader from "./components/BoardHeader.jsx";
 import PostList from "./components/PostList.jsx";
 import BoardFooter from "./components/BoardFooter.jsx";
 import { useState } from "react";
+import PostForm from "./components/PostForm.jsx";
 
 export default function App() {
   const [posts, setPosts] = useState([
@@ -22,6 +23,8 @@ export default function App() {
     },
   ]);
 
+  const [page, setPage] = useState("list");
+
   function addPracticePost() {
     const id = Date.now();
     setPosts((currentPosts) => [
@@ -36,10 +39,21 @@ export default function App() {
     ]);
   }
 
+  function savePost(post) {
+    setPosts((currentPosts) => [{
+      id: Date.now(),
+      ...post,
+      authorNickname: "학생", createdDatetime: "2026-10-04"
+    }]);
+
+    setPage("list");
+  }
+
   return (
     <>
-      <BoardHeader />
-      <main>
+      <BoardHeader onWrite={() => setPage("write")}/>
+
+      {page === "list" && <main>
         <h1>게시판</h1>
 
         <p id="list-message" role="status">게시물 목록</p>
@@ -53,7 +67,11 @@ export default function App() {
           <span id="page-number">1페이지</span>
           <button id="next-page" type="button" disabled>다음</button>
         </div>
-      </main>
+      </main> }
+      {page === "write" && <main>
+          <h1>글쓰기</h1>
+          <PostForm onSave={savePost} onCancel={() => setPage("list")} />
+        </main>}
 
       <BoardFooter />
     </>
