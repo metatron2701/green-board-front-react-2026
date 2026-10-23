@@ -9,6 +9,8 @@ import Login from "./components/Login";
 import "./style.css";
 
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const [posts, setPosts] = useState([
     {
       id: 1,
@@ -48,13 +50,13 @@ export default function App() {
 
   return (
     <>
-      <BoardHeader />
+      <BoardHeader isLoggedIn={isLoggedIn} onLogout={() => setIsLoggedIn(false)} />
         <Routes>
           <Route path="/" element={<PostList posts={posts} onAddPracticePost={addPracticePost} />} />
           <Route path="/posts" element={<PostList posts={posts} onAddPracticePost={addPracticePost} />} />
           <Route path="/posts/new" element={<PostForm onSave={savePost} />} />
           <Route path="/posts/:postId" element={<PostDetail />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login onLogin={() => setIsLoggedIn(true)} />} />
         </Routes>
       <BoardFooter />
     </>

@@ -1,6 +1,6 @@
 import PostItem from "./PostItem.jsx";
 
-export default function PostList({posts, onAddPracticePost}){
+export default function PostList({posts, onAddPracticePost}) {
     return (
         <main>
             <h1>게시판</h1>
@@ -11,18 +11,18 @@ export default function PostList({posts, onAddPracticePost}){
             <button type="button" onClick={onAddPracticePost}>임시 게시글 추가</button>
 
             <div className="pagination" aria-label="페이지 이동">
-            <button id="previous-page" type="button" disabled>이전</button>
-            <span id="page-number">1 페이지</span>
-            <button id="next-page" type="button" disabled>다음</button>
+                <button id="previous-page" type="button" disabled>이전</button>
+                <span id="page-number">1 페이지</span>
+                <button id="next-page" type="button" disabled>다음</button>
             </div>
         </main>
     );
 }
 
-function PostListItem({posts}){
+function PostListItem({posts}) {
     return(
         <ul id="post-list" className="post-list">
-          {posts.map((post) => <PostItem key={post.id} post={post} />)}
+          {posts.length === 0 ? "게시물이 없습니다." : posts.map((post) => <PostItem key={post.id} post={post} />)}
         </ul>
     );
 }

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function PostDetail(){
+export default function PostDetail() {
     return (
         <main>
             <article>

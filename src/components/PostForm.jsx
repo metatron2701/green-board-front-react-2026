@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function PostForm({onSave}){
+export default function PostForm({onSave}) {
     return (
         <main>
             <h1>글쓰기</h1>
