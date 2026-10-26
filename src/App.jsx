@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import {useState} from "react";
+import {Route, Routes} from "react-router-dom";
 import BoardFooter from "./components/BoardFooter";
 import BoardHeader from "./components/BoardHeader";
 import PostList from "./components/PostList";
@@ -10,54 +10,18 @@ import "./style.css";
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      title: "test_title01",
-      authorNickname: "test_nickname01",
-      createdDatetime: "2026-10-04",
-      content: "test_content01"
-    },
-    {
-      id: 2,
-      title: "test_title02",
-      authorNickname: "test_nickname02",
-      createdDatetime: "2026-10-04",
-      content: "test_content02"
-    },
-  ]);
-
-  function addPracticePost() {
-    const id = Date.now();
-    setPosts((currentPosts) => [
-      {
-        id, 
-        title: `임시 게시글 ${currentPosts.length}`, 
-        authorNickname: "학생", 
-        createdDatetime: "2026-10-04"
-      },
-      ...currentPosts,
-    ]);
-  }
-
-  function savePost(post) {
-    setPosts((currentPosts) => [
-      {id:Date.now(), ...post, authorNickname: "학생", createdDatetime: "2026-10-04"},
-      ...currentPosts,
-    ]);
-  }
+  const [token , setToken] = useState(() => localStorage.getItem("accessToken"));
 
   return (
     <>
-      <BoardHeader isLoggedIn={isLoggedIn} onLogout={() => setIsLoggedIn(false)} /> 
-        <Routes>
-          <Route path="/" element={<PostList posts={posts} onAddPracticePost={addPracticePost} />} />
-          <Route path="/posts" element={<PostList posts={posts} onAddPracticePost={addPracticePost} />} />
-          <Route path="/posts/new" element={<PostForm onSave={savePost} />} />
-          <Route path="/posts/:postId" element={<PostDetail posts={posts} />} />
-          <Route path="/login" element={<Login onLogin={() => setIsLoggedIn(true)} />} />
-        </Routes>
+      <BoardHeader isLoggedIn={isLoggedIn} onLogout={() => setIsLoggedIn(false)}/>
+      <Routes>
+        <Route path="/" element={token ? <PostList token={token}/> : <Login onLogin={setToken} />} />
+        <Route path="/posts" element={token ? <PostList token={token}/> : <Login onLogin={setToken} />} />
+        <Route path="/posts/new" element={<PostForm onSave={setToken} />} />
+        <Route path="/posts/:postId" element={<PostDetail token={token}/>} />
+        <Route path="/login" element={<Login onLogin={setToken} />} />
+      </Routes>
       <BoardFooter />
     </>
   )
