@@ -10,7 +10,7 @@ import "./style.css";
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [token , setToken] = useState(() => localStorage.getItem("accessToken"));
+  constq [token , setToken] = useState(() => localStorage.getItem("accessToken"));
 
   return (
     <>

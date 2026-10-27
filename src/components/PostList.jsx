@@ -15,7 +15,7 @@ export default function PostList({token}){
 
     useEffect(() => {
         fetch(`http://127.0.0.1:8080/api/board?page=${page - 1}&size=10`,
-          {headers: { Authorization: `Bearer ${token}` }})
+          {headers : { Authorization : `Bearer ${token}` }})
           .then((response) => response.json())
           .then((result) => {
               if (!result.success) {
@@ -28,27 +28,29 @@ export default function PostList({token}){
           .catch(() => setMessage("게시글을 불러올 수 없습니다."));
     }, [page, token]);
 
-    return <main>
-        <h1>게시판</h1>
-        <p id="list-message" role="status">{message}</p>
-        <button id="retry-list" type="button" hidden>목록 다시 시도</button>
+    return (
+        <main>
+            <h1>게시판</h1>
+            <p id="list-message" role="status">{message}</p>
+            <button id="retry-list" type="button" hidden>목록 다시 시도</button>
 
-        <PostListItem posts={posts} />
+            <PostListItem posts={posts} />
 
-        <div className="pagination" aria-label="페이지 이동">
-          <button 
-            id="previous-page" 
-            type="button" 
-            disabled={page === 1}
-            onClick={() => setSearchParams({page: String(page-1)})}>이전</button>
-          <span id="page-number">{totalPages === 0 ? "0페이지" : `${page} / ${totalPages}페이지`}</span>
-          <button 
-            id="next-page" 
-            type="button" 
-            disabled={page >= totalPages}
-            onClick={() => setSearchParams({page: String(page+1)})}>다음</button>
-        </div>
-    </main>
+            <div className="pagination" aria-label="페이지 이동">
+            <button 
+                id="previous-page" 
+                type="button" 
+                disabled={page === 1}
+                onClick={() => setSearchParams({page: String(page-1)})}>이전</button>
+            <span id="page-number">{totalPages === 0 ? "0페이지" : `${page} / ${totalPages}페이지`}</span>
+            <button 
+                id="next-page" 
+                type="button" 
+                disabled={page >= totalPages}
+                onClick={() => setSearchParams({page: String(page+1)})}>다음</button>
+            </div>
+        </main>
+    );
 }
 
 function PostListItem({posts}){
