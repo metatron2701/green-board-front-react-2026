@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import BoardFooter from "./components/BoardFooter";
 import BoardHeader from "./components/BoardHeader";
@@ -10,7 +9,6 @@ import "./style.css";
 import { useAuthContext } from "./useAuthContext";
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const {token} = useAuthContext();
 
   return (
@@ -25,5 +23,5 @@ export default function App() {
       </Routes>
       <BoardFooter />
     </>
-  )
+  );
 }

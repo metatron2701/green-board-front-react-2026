@@ -10,13 +10,33 @@ export function AuthProvider({children}) {
         setToken(accessToken);
     }
 
+    async function logout() {
+        const response = await fetch(
+            `http://127.0.0.1:8080/api/user/logout`,
+            {
+                method : "POST",
+                headers : {
+                    "Content-Type" : "application/json",
+                    Authorization : `Bearer ${token}`
+                }
+            }
+        );
+        if (response.status !== 204) {
+            const result = await response.json().catch(() => null);
+            if (!response.ok || !result?.success) {
+                throw new Error(result?.message || "로그아웃이 실패했습니다.");
+            }
+        }
+        clearAuth();
+    }
+
     function clearAuth() {
         localStorage.removeItem("accessToken");
         setToken(null);
     }
 
     return (
-        <AuthContext.Provider value={{token, login, clearAuth}}>
+        <AuthContext.Provider value={{token, login, logout, clearAuth}}>
             {children}
         </AuthContext.Provider>
     );
