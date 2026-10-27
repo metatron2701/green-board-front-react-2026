@@ -1,15 +1,17 @@
 import { useSearchParams } from "react-router-dom";
 import PostItem from "./PostItem.jsx";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
+import { useAuthContext } from "../useAuthContext.jsx";
 
-export default function PostList({token}){
+export default function PostList() {
+    const {token} = useAuthContext();
     const [searchParams, setSearchParams] = useSearchParams();
     const [posts, setPosts] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
     const requestedPage = Number(searchParams.get("page"));
     const [message, setMessage] = useState("게시글 목록");
     let page = 1;
-    if(Number.isSafeInteger(requestedPage) && requestedPage > 0){
+    if (Number.isSafeInteger(requestedPage) && requestedPage > 0) {
         page = requestedPage;
     }
 
@@ -53,8 +55,8 @@ export default function PostList({token}){
     );
 }
 
-function PostListItem({posts}){
-    return(
+function PostListItem({posts}) {
+    return (
         <ul id="post-list" className="post-list">
           {posts.length === 0 ? "아직 게시글이 없습니다" : posts.map((post) => <PostItem key={post.id} post={post} />)}
         </ul>
