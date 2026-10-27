@@ -9,6 +9,24 @@ export default function PostDetail() {
     const [comments, setComments] = useState([]);
     const [postMessage, setPostMessage] = useState("");
     const [commentMessage, setCommentMessage] = useState("");
+    const [commentContent, setCommentContent] = useState("");
+
+    async function loadComment() {
+        try {
+            const response = await fetch(
+                `http://127.0.0.1:8080/api/board/${postId}/comment`,
+                {headers : {Authorization : `Bearer ${token}`}}
+            );
+            const result = await response.json();
+            if (!response.ok || !result.success) {
+                throw new Error(result.message || "댓글을 불러올 수 없습니다.");
+            }
+            setComments(result.data);
+            setCommentMessage("");
+        } catch (error) {
+            setCommentMessage(error.message);
+        }
+    }
 
     useEffect(() => {
         const numId = Number(postId);
@@ -33,23 +51,45 @@ export default function PostDetail() {
                 setPostMessage(error.message);
                 return;
             }
-            try {
-                const response = await fetch(
-                    `http://127.0.0.1:8080/api/board/${postId}/comment`,
-                    {headers : {Authorization : `Bearer ${token}`}}
-                );
-                const result = await response.json();
-                if (!response.ok || !result.success) {
-                    throw new Error(result.message || "댓글을 불러올 수 없습니다.");
-                }
-                setComments(result.data);
-                setCommentMessage("");
-            } catch (error) {
-                setCommentMessage(error.message);
-            }
+            
+            loadComment();
         }
         loadDetail();
     }, [postId, token]);
+
+    async function addComment(event) {
+        event.preventDefault();
+        const content = commentContent.trim();
+
+        if (!content || content.length > 255) {
+            setCommentMessage("댓글은 1 ~ 255자로 입력하세요.");
+            return;
+        }
+        
+        try {
+            const response = await fetch(
+                `http://127.0.0.1:8080/api/board/${postId}/comment`,
+                {
+                    method : "POST",
+                    headers : {
+                        "Content-Type" : "application/json",
+                        Authorization : `Bearer ${token}`
+                    },
+                    body : JSON.stringify({content})
+                }
+            );
+            const result = await response.json();
+            if (!response.ok || !result.success) {
+                throw new Error(result.message || "댓글을 등록할 수 없습니다.");
+            }
+            setCommentContent("");
+            setCommentMessage("");
+
+            loadComment();
+        } catch (error) {
+            setCommentMessage(error.message);
+        }
+    }
 
     return (
         <main>
@@ -71,9 +111,16 @@ export default function PostDetail() {
                         </li>
                     ))}
                 </ul>
-                <form id="comment-form">
+                <form id="comment-form" onSubmit={addComment}>
                     <label htmlFor="comment-content">댓글 내용</label>
-                    <textarea id="comment-content" name="content" required maxLength="255" placeholder="댓글을 입력하세요."></textarea>
+                    <textarea
+                        id="comment-content"
+                        name="content"
+                        required
+                        maxLength="255"
+                        value={commentContent}
+                        onChange={(event) => setCommentContent(event.target.value)}
+                        placeholder="댓글을 입력하세요."></textarea>
                     <button type="submit">댓글 등록</button>
                 </form>
             </section>}
