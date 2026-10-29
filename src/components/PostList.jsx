@@ -39,17 +39,17 @@ export default function PostList() {
             <PostListItem posts={posts} />
 
             <div className="pagination" aria-label="페이지 이동">
-            <button 
-                id="previous-page" 
-                type="button" 
-                disabled={page === 1}
-                onClick={() => setSearchParams({page: String(page-1)})}>이전</button>
-            <span id="page-number">{totalPages === 0 ? "0페이지" : `${page} / ${totalPages}페이지`}</span>
-            <button 
-                id="next-page" 
-                type="button" 
-                disabled={page >= totalPages}
-                onClick={() => setSearchParams({page: String(page+1)})}>다음</button>
+                <button 
+                    id="previous-page" 
+                    type="button" 
+                    disabled={page === 1}
+                    onClick={() => setSearchParams({page: String(page-1)})}>이전</button>
+                <span id="page-number">{totalPages === 0 ? "0페이지" : `${page} / ${totalPages}페이지`}</span>
+                <button 
+                    id="next-page" 
+                    type="button" 
+                    disabled={page >= totalPages}
+                    onClick={() => setSearchParams({page: String(page+1)})}>다음</button>
             </div>
         </main>
     );
